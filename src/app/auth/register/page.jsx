@@ -12,7 +12,7 @@ import {
   FormControl,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import PasswordInput from '@/components/passwordInput';
+import { PasswordInput } from '@/components/passwordInput';
 import {
   Select,
   SelectTrigger,
@@ -34,7 +34,7 @@ export default function RegisterPage() {
     defaultValues: {
       username: '',
       password: '',
-      role: undefined,
+      role: '',
     },
   });
 
@@ -65,7 +65,9 @@ export default function RegisterPage() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="username">Username</FormLabel>
+                  <FormLabel htmlFor="username" className="text-gray-900">
+                    Username
+                  </FormLabel>
                   <FormControl>
                     <Input
                       id="username"
@@ -83,7 +85,9 @@ export default function RegisterPage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="password">Password</FormLabel>
+                  <FormLabel htmlFor="password" className="text-gray-900">
+                    Password
+                  </FormLabel>
                   <FormControl>
                     <PasswordInput
                       id="password"
@@ -101,7 +105,9 @@ export default function RegisterPage() {
               name="role"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="role">Role</FormLabel>
+                  <FormLabel htmlFor="role" className="text-gray-900">
+                    Role
+                  </FormLabel>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger>
