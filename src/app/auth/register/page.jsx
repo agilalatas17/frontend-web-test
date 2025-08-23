@@ -40,10 +40,16 @@ export default function RegisterPage() {
 
   const onRegister = async (values) => {
     try {
-      await registerAPI(values);
-      toast.success('Register success!');
+      console.log('CEK VALUES REGIS : ', values);
+      const res = await registerAPI(values);
 
-      router.push('/admin/articles');
+      if (res.data.role === 'Admin') {
+        router.push('/admin/articles');
+      } else {
+        router.push('/articles');
+      }
+
+      toast.success('Register success!');
     } catch (e) {
       toast.error('Register failed!');
     }
