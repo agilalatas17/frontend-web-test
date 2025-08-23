@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { registerFormSchema } from '@/lib/validations/auth';
@@ -38,8 +37,6 @@ export default function RegisterPage() {
       role: undefined,
     },
   });
-
-  console.log('CEK FORM : ', form.control);
 
   const onRegister = async (values) => {
     try {
