@@ -140,7 +140,7 @@ export default function RegisterPage() {
             Already have an account?{' '}
             <span>
               <a
-                href=""
+                href="/auth/login"
                 className="underline text-primary hover:text-primary/20"
               >
                 Login
