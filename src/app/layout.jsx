@@ -2,15 +2,10 @@ import localFont from 'next/font/local';
 import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-});
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
+const archivo = localFont({
+  src: './fonts/ArchivoVF.ttf',
+  variable: '--archivo-font',
+  weight: '100 200 300 400 500 600 700',
 });
 
 export const metadata = {
@@ -23,7 +18,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body
         suppressHydrationWarning={true}
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${archivo.variable} font-sans antialiased`}
       >
         {children}
         <Toaster richColors />
