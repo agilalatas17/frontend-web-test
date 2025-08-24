@@ -12,7 +12,7 @@ import {
   FormControl,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { PasswordInput } from '@/components/passwordInput';
+import { PasswordInput } from '@/components/PasswordInput';
 import { toast } from 'sonner';
 import { Loader2Icon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
