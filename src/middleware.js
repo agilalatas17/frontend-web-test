@@ -1,7 +1,4 @@
 import { NextResponse } from 'next/server';
-import { jwtDecode } from 'jwt-decode';
-
-const PUBLIC_PATHS = ['/auth/login', '/auth/register'];
 
 export function middleware(req) {
   const token = req.cookies.get('token')?.value;
@@ -10,6 +7,14 @@ export function middleware(req) {
 
   if (!token && pathname.startsWith(pathname)) {
     return NextResponse.redirect(new URL('/auth/login', req.url));
+  }
+
+  if (pathname === '/' && token && role) {
+    if (role === 'Admin') {
+      return NextResponse.redirect(new URL('/admin/articles', req.url));
+    } else if (role === 'User') {
+      return NextResponse.redirect(new URL('/articles', req.url));
+    }
   }
 
   try {
