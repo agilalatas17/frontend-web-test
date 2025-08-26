@@ -21,34 +21,23 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { SearchInput } from '@/components/SearchInput';
-import { getCategoriesAPI } from '@/lib/api/categories';
+import { getArticlesAPI } from '@/lib/api/articles';
+import Link from 'next/link';
 
 export default function ArticlesPage() {
-  const [category, setCategory] = useState([]);
-  const data = [
-    {
-      id: 1,
-      title: 'Cybersecurity Essentials Every Developer Should Know',
-      category: 'Technology',
-      createdAt: '2025-04-13T10:55:12',
-      thumbnail: '/assets/images/article1.jpg',
-    },
-    {
-      id: 2,
-      title: 'The Future of Work: Remote-First Teams and Digital Tools',
-      category: 'bajigur',
-      createdAt: '2025-04-13T10:55:12',
-      thumbnail: '/assets/images/article2.jpg',
-    },
-  ];
+  const [articles, setArticles] = useState([]);
 
-  const onLoadCategories = async () => {
-    const res = await getCategoriesAPI();
-    console.log('CEK CATEGORIESSSSS : ', res);
+  const onLoadData = async () => {
+    const data = await getArticlesAPI({
+      page: 1,
+      limit: 10,
+    });
+
+    setArticles(data);
   };
 
   useEffect(() => {
-    onLoadCategories();
+    onLoadData();
   }, []);
 
   return (
@@ -56,11 +45,11 @@ export default function ArticlesPage() {
       <section className="bg-white rounded-xl">
         <div>
           <div className="flex justify-between items-center border-b p-6">
-            <h4 className="font-medium">Total Articles : 25</h4>
+            <h4 className="font-medium">Total Articles : {articles.total}</h4>
           </div>
           <div className="flex items-center gap-4 justify-between border-b p-6">
             <div className="flex flex-row gap-x-2">
-              <Select>
+              {/* <Select>
                 <SelectTrigger className="gap-x-3">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
@@ -69,16 +58,19 @@ export default function ArticlesPage() {
                     <SelectItem value={index}>{item.name}</SelectItem>
                   ))}
                 </SelectContent>
-              </Select>
+              </Select> */}
               <SearchInput placeholder="Search by title" className="w-64" />
             </div>
-            <button className="inline-flex gap-x-1.5 items-center bg-blue-600 text-white px-4 py-2.5 rounded-md text-sm">
+            <Link
+              href="/admin/articles/create"
+              className="inline-flex gap-x-1.5 items-center bg-blue-600 text-white px-4 py-2.5 rounded-md text-sm"
+            >
               <Plus className="size-5" /> Add Articles
-            </button>
+            </Link>
           </div>
         </div>
 
-        <DataTable columns={ARTICLES_COLUMNS} data={data} />
+        <DataTable columns={ARTICLES_COLUMNS} data={articles.data} />
 
         {/* Pagination */}
         <div className="flex justify-between items-center mt-4 px-4 py-6">

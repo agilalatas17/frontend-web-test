@@ -2,17 +2,22 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import dayjs from 'dayjs';
+import 'dayjs/locale/id';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+dayjs.extend(localizedFormat);
+dayjs.locale('id');
 
 export const ARTICLES_COLUMNS = [
   {
-    accessorKey: 'thumbnail',
+    accessorKey: 'thumbnails',
     header: 'Thumbnails',
     meta: { className: 'text-center' },
     cell: ({ row }) => {
-      const url = row.getValue('thumbnail');
+      const url = row.original.imageUrl;
       return (
         <Image
-          src={url}
+          src={url ?? '/assets/images/default image.png'}
           alt="thumbnail"
           width={60}
           height={60}
@@ -29,15 +34,20 @@ export const ARTICLES_COLUMNS = [
     accessorKey: 'category',
     header: 'Category',
     cell: (row) => (
-      <p className="text-center capitalize">{row.getValue('category')}</p>
+      <p className="text-center capitalize">
+        {row.row.original.category?.name ?? '-'}
+      </p>
     ),
   },
   {
     accessorKey: 'createdAt',
     header: 'Created at',
-    cell: (row) => (
-      <p className="text-center capitalize">{row.getValue('createdAt')}</p>
-    ),
+    cell: ({ row }) => {
+      const date = dayjs(row.original.createdAt).format(
+        'MMMM DD, YYYY HH:mm:ss'
+      );
+      return <p className="text-center">{date}</p>;
+    },
   },
   {
     id: 'actions',
