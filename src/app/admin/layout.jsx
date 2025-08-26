@@ -14,10 +14,12 @@ export default function AdminLayout({ children }) {
 
   return (
     <SidebarProvider>
-      <SidebarComp />
-      <div className="bg-gray-100 w-full">
-        <Navbar titlePage={titlePage} />
-        <main className="p-6">{children}</main>
+      <div className="flex h-screen w-screen">
+        <SidebarComp />
+        <div className="bg-gray-100 flex flex-col flex-1">
+          <Navbar titlePage={titlePage} />
+          <main className="p-6 flex-1 overflow-y-auto w-full">{children}</main>
+        </div>
       </div>
     </SidebarProvider>
   );
