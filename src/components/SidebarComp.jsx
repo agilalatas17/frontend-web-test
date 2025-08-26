@@ -8,32 +8,15 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Button } from './ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LogOut } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import { destroyCookie } from '@/lib/cookies';
+import LogoutButton from './LogoutButton';
 import { NAV_ITEMS } from '@/constants/nav-items';
-import { toast } from 'sonner';
 
 export default function SidebarComp() {
   const pathname = usePathname();
-  const router = useRouter();
   let isActive;
-
-  const onLogout = async () => {
-    try {
-      await destroyCookie('token');
-      await destroyCookie('role');
-
-      toast.success('Berhasil logout!');
-      // router.push('/auth/login');
-    } catch (err) {
-      toast.error('Gagal logout');
-    }
-  };
 
   return (
     <>
@@ -74,14 +57,7 @@ export default function SidebarComp() {
             })}
 
             <SidebarMenuItem>
-              <Button
-                type="submit"
-                onClick={onLogout}
-                className="text-base leading-6 font-medium px-4 py-2 text-white shadow-none hover:bg-blue-500 w-full justify-start"
-              >
-                <LogOut className="size-5" />
-                Logout
-              </Button>
+              <LogoutButton className="shadow-none hover:bg-blue-500" />
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarContent>
