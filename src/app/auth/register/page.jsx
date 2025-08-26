@@ -40,7 +40,6 @@ export default function RegisterPage() {
 
   const onRegister = async (values) => {
     try {
-      console.log('CEK VALUES REGIS : ', values);
       const res = await registerAPI(values);
 
       if (res.data.role === 'Admin') {
@@ -125,7 +124,7 @@ export default function RegisterPage() {
             />
           </div>
 
-          <Button className="w-full my-6">
+          <Button className="w-full my-6 hover:bg-blue-500">
             {form.formState.isSubmitting ? (
               <>
                 <Loader2Icon className="animate-spin" />

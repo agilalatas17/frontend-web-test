@@ -16,8 +16,9 @@ import { PasswordInput } from '@/components/PasswordInput';
 import { toast } from 'sonner';
 import { Loader2Icon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { loginAPI } from '@/lib/api/auth';
+import { loginAPI, userProfileAPI } from '@/lib/api/auth';
 import { useRouter } from 'next/navigation';
+import { setCookie } from '@/lib/cookies';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -33,9 +34,14 @@ export default function LoginPage() {
 
   const onLogin = async (values) => {
     try {
-      const res = await loginAPI(values);
+      const loginResponse = await loginAPI(values);
+      const { token, role } = loginResponse.data;
 
-      if (res.data.role === 'Admin') {
+      await userProfileAPI(token);
+      await setCookie('token', token, { httpOnly: true });
+      await setCookie('role', role, { httpOnly: true });
+
+      if (role === 'Admin') {
         router.push('/admin/articles');
       } else {
         router.push('/articles');
@@ -97,7 +103,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <Button className="w-full my-6">
+          <Button className="w-full my-6 hover:bg-blue-500">
             {form.formState.isSubmitting ? (
               <>
                 <Loader2Icon className="animate-spin" />
