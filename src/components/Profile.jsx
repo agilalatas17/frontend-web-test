@@ -14,7 +14,7 @@ export default function Profile() {
       const token = (await getCookie('token'))?.value;
       if (token) {
         const userProfileResponse = await userProfileAPI(token);
-        console.log('cek user profile : ', userProfileResponse.data);
+        localStorage.setItem('username', userProfileResponse.data?.username);
         setUser(userProfileResponse.data);
       }
     } catch (err) {
@@ -44,7 +44,7 @@ export default function Profile() {
         </Avatar>
         <Link
           href="#"
-          className="capitalize text-sm font-medium leading-5 text-slate-900 hover:underline hover:text-blue-500"
+          className="hidden md:block capitalize text-sm font-medium leading-5 text-slate-900 hover:underline hover:text-blue-500"
         >
           {user?.username || 'Loading ...'}
         </Link>
