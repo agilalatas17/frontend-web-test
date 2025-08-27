@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import {
   Select,
   SelectContent,
@@ -6,9 +9,17 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { SearchInput } from '@/components/SearchInput';
+import useDebounce from '@/hooks/useDebounce';
 import ArticleList from '@/components/user/ArticleList';
 
 export default function ArticlesPage() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const { debounce } = useDebounce();
+
+  const handleSearch = debounce((e) => {
+    setSearchQuery(e.target.value);
+  }, 2000);
+
   return (
     <>
       <section
@@ -38,15 +49,16 @@ export default function ArticlesPage() {
             </Select>
 
             <SearchInput
-              className="bg-white text-slate-900 md:min-w-[400px]"
+              onChange={handleSearch}
               placeholder="Search articles"
+              className="bg-white text-slate-900 md:min-w-[400px]"
             />
           </div>
         </div>
       </section>
 
       <section className="bg-white mx-auto max-w-[1249px] px-5 md:px-0 my-10">
-        <ArticleList />
+        <ArticleList search={searchQuery} />
       </section>
     </>
   );
