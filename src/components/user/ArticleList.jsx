@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { getArticlesAPI } from '@/lib/api/articles';
 import dayjs from 'dayjs';
 import { Skeleton } from '@/components/ui/skeleton';
+import Link from 'next/link';
+import sanitizeHtml from 'sanitize-html';
 
 export default function ArticleList({ search }) {
   const [articles, setArticles] = useState([]);
@@ -40,7 +42,6 @@ export default function ArticleList({ search }) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-10 md:gap-y-[60px] md:gap-x-10">
         {isLoading ? (
-          // 👉 Skeleton placeholder (3 item)
           Array.from({ length: 3 }).map((_, i) => (
             <Card
               key={i}
@@ -59,36 +60,34 @@ export default function ArticleList({ search }) {
           ))
         ) : articles?.data?.length > 0 ? (
           articles.data.map((article) => (
-            <Card
-              key={article.id}
-              className="max-w-sm rounded-xl overflow-hidden w-full h-full"
-            >
-              <div className="relative w-full mb-4 overflow-hidden">
-                <img
-                  src={
-                    article.imageUrl ||
-                    'https://s3.sellerpintar.com/articles/articles/1755330243359-harimau.jpeg'
-                  }
-                  alt={article.title}
-                  className="min-w-64 md:!w-[388px] !h-[200px] md:!h-60 !object-fit rounded-xl w-full overflow-hidden"
-                />
-              </div>
-              <CardContent className="p-0">
-                <p className="text-xs md:text-sm mb-2">
-                  {dayjs(article.createdAt).format('MMMM DD, YYYY')}
-                </p>
-                <h1 className="md:text-lg font-semibold">{article.title}</h1>
-                <p
-                  className="text-sm md:text-base my-2 line-clamp-2"
-                  dangerouslySetInnerHTML={{ __html: article.content }}
-                />
-              </CardContent>
-              <CardFooter className="p-0">
-                <Badge className="px-3 py-1 rounded-full bg-blue-200 text-blue-900 md:text-sm shadow-none font-normal hover:bg-blue-200">
-                  Technology
-                </Badge>
-              </CardFooter>
-            </Card>
+            <Link href={`/articles/detail/${article.id}`} key={article.id}>
+              <Card className="max-w-sm rounded-xl overflow-hidden w-full h-full">
+                <div className="relative w-full mb-4 overflow-hidden">
+                  <img
+                    src={
+                      article.imageUrl ||
+                      'https://s3.sellerpintar.com/articles/articles/1755330243359-harimau.jpeg'
+                    }
+                    alt={article.title}
+                    className="min-w-64 md:!w-[388px] !h-[200px] md:!h-60 !object-fit rounded-xl w-full overflow-hidden"
+                  />
+                </div>
+                <CardContent className="p-0">
+                  <p className="text-xs md:text-sm mb-2">
+                    {dayjs(article.createdAt).format('MMMM DD, YYYY')}
+                  </p>
+                  <h1 className="md:text-lg font-semibold">{article.title}</h1>
+                  <p className="text-sm md:text-base my-2 line-clamp-2">
+                    {sanitizeHtml(article.content, { allowedTags: [] })}
+                  </p>
+                </CardContent>
+                <CardFooter className="p-0">
+                  <Badge className="px-3 py-1 rounded-full bg-blue-200 text-blue-900 md:text-sm shadow-none font-normal hover:bg-blue-200">
+                    Technology
+                  </Badge>
+                </CardFooter>
+              </Card>
+            </Link>
           ))
         ) : (
           <p className="col-span-full text-center text-slate-500">
