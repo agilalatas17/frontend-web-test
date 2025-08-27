@@ -40,6 +40,7 @@ export default function LoginPage() {
       await userProfileAPI(token);
       await setCookie('token', token, { httpOnly: true });
       await setCookie('role', role, { httpOnly: true });
+      localStorage.setItem('role', role);
 
       if (role === 'Admin') {
         router.push('/admin/articles');

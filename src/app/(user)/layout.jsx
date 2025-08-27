@@ -1,7 +1,12 @@
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+
 export default function MemberLayout({ children }) {
   return (
     <>
-      <div>{children}</div>
+      <Navbar />
+      <main>{children}</main>
+      <Footer />
     </>
   );
 }

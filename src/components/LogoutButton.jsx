@@ -1,3 +1,4 @@
+import { destroyCookie } from '@/lib/cookies';
 import { Button } from './ui/button';
 import { LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -9,6 +10,9 @@ export default function LogoutButton({ className }) {
   const onLogout = async () => {
     try {
       await fetch('/api/logout', { method: 'POST' });
+      await destroyCookie('token');
+      await destroyCookie('role');
+      localStorage.clear();
 
       toast.success('Berhasil logout!');
       router.push('/auth/login');

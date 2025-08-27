@@ -26,8 +26,11 @@ import TextEditor from '@/components/text-editor';
 import { ImagePlus } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import dayjs from 'dayjs';
 
 export default function ArticleForm() {
+  const router = useRouter();
   const [preview, setPreview] = useState(null);
 
   const form = useForm({
@@ -41,17 +44,20 @@ export default function ArticleForm() {
   });
 
   const onPreview = (values) => {
-    // Simpan sementara ke localStorage
+    const { title, category, content } = form.getValues(); // ambil values secara spesifik
+    const author = localStorage.getItem('username');
     localStorage.setItem(
       'articlePreview',
       JSON.stringify({
-        ...values,
-        thumbnailPreview: preview, // simpan URL blob untuk ditampilkan
+        title,
+        category,
+        content,
+        date: dayjs().toISOString(),
+        author: author,
+        thumbnailPreview: preview, // URL dari useState preview
       })
     );
-
-    // Arahkan ke halaman preview
-    router.push('/articles/preview');
+    router.push('/admin/articles/preview');
   };
 
   const onSubmit = async (values) => {
