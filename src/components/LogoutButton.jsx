@@ -3,7 +3,6 @@ import { Button } from './ui/button';
 import { LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { destroyCookie } from '@/lib/cookies';
 
 export default function LogoutButton({ className }) {
   const router = useRouter();
